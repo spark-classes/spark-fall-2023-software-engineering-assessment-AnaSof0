@@ -6,6 +6,7 @@ import { Select, Typography } from "@mui/material";
  */
 import {} from "./globals";
 import { IUniversityClass } from "./types/api_types";
+import { GradeTable } from "./components/GradeTable";
 
 function App() {
   // You will need to use more of these!
@@ -56,7 +57,7 @@ function App() {
           <Typography variant="h4" gutterBottom>
             Final Grades
           </Typography>
-          <div>Place the grade table here</div>
+          <div> <GradeTable/> </div>
         </Grid>
       </Grid>
     </div>
