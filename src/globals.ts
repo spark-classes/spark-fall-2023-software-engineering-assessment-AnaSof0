@@ -9,6 +9,11 @@ export const BASE_API_URL = "https://spark-se-assessment-api.azurewebsites.net/a
 // You can get this from Gradescope aka x-functions-key
 export const TOKEN = "6se7z2q8WGtkxBlXp_YpU-oPq53Av-y_GSYiKyS_COn6AzFuTjj4BQ==";
 
+//method to call my APIs
+export const get={
+  method:"GET"
+}
+
 // This is a helper function to generate the headers with the x-functions-key attached
 export const GET_DEFAULT_HEADERS = () => {
   var headers = new Headers();

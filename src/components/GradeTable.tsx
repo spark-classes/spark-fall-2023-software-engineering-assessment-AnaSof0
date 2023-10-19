@@ -41,15 +41,17 @@ const rows=[
  * You might need to change the signature of this function.
  *
  */
-export const GradeTable = () => {
 
-  return(
-    <div style ={{ height:300,width:'100%' }}>
-      <DataGrid 
-      rows={rows}
-      columns={columns}
-      pageSize={100}
-      rowsPerPageOptions={[10]}/>
+export const GradeTable = () => {
+  return (
+    <div style={{ height: 300, width: "100%"}}>
+      <h2 style={{ marginBottom: 16, textAlign: "center", fontSize: 24}}></h2>
+      <DataGrid
+        rows={rows}
+        columns={columns}
+        pageSize={100}
+        rowsPerPageOptions={[10]}
+      />
     </div>
-  )
+  );
 };

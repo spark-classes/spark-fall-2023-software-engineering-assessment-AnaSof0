@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Grid from "@mui/material/Unstable_Grid2";
-import { Select, Typography } from "@mui/material";
+import { Button, Select, Typography } from "@mui/material";
 /**
  * You will find globals from this file useful!
  */
-import {} from "./globals";
+import {GET_DEFAULT_HEADERS} from "./globals";
 import { IUniversityClass } from "./types/api_types";
 import { GradeTable } from "./components/GradeTable";
 
@@ -12,6 +12,7 @@ function App() {
   // You will need to use more of these!
   const [currClassId, setCurrClassId] = useState<string>("");
   const [classList, setClassList] = useState<IUniversityClass[]>([]);
+  const [data, setData] = useState<any>(null); /*creating variable to store data from the called API*/
 
   /**
    * This is JUST an example of how you might fetch some data(with a different API).
@@ -28,11 +29,12 @@ function App() {
    *
    */
   const fetchSomeData = async () => {
-    const res = await fetch("https://cat-fact.herokuapp.com/facts/", {
+    const res = await fetch("https://spark-se-assessment-api.azurewebsites.net/api/class/listBySemester/fall2022?buid=U84054577", {
       method: "GET",
+      headers: GET_DEFAULT_HEADERS()
     });
     const json = await res.json();
-    console.log(json);
+    setData(json);/*putting our API data into our data variable we created before*/
   };
 
   return (
@@ -42,6 +44,7 @@ function App() {
           <Typography variant="h2" gutterBottom>
             Spark Assessment
           </Typography>
+          <Button onClick={fetchSomeData}> test api </Button>
         </Grid>
         <Grid xs={12} md={4}>
           <Typography variant="h4" gutterBottom>
