@@ -22,6 +22,18 @@ const columns: GridColDef[]=[
   {field:'FinalGrade',headerName:'Final Grade',width:100},
 
 ];
+
+const rows=[
+  { id: 0, StudentName: 'Ana', ClassID: '123', ClassName: 'Math', Semester: 'Fall', FinalGrade: 'A' },
+  { id: 1, StudentName: 'Anissa', ClassID: '14', ClassName: 'Science', Semester: 'Fall', FinalGrade: 'B' },
+  { id: 2, StudentName: 'Mariana', ClassID: '1', ClassName: 'English', Semester: 'Spring', FinalGrade: 'A' },
+  { id: 3, StudentName: 'Anais', ClassID: '123', ClassName: 'Math', Semester: 'Fall', FinalGrade: 'B' },
+  { id: 4, StudentName: 'Maya', ClassID: '123', ClassName: 'Math', Semester: 'Fall', FinalGrade: 'C' },
+  { id: 5, StudentName: 'Sara', ClassID: '8', ClassName: 'Chemistry', Semester: 'Spring', FinalGrade: 'D' },
+  { id: 6, StudentName: 'Michael', ClassID: '23', ClassName: 'Bio', Semester: 'Fall', FinalGrade: 'A-' },
+  { id: 7, StudentName: 'Noel', ClassID: '3', ClassName: 'Sports', Semester: 'Spring', FinalGrade: 'B+' }
+];
+
 /**
  * This is the component where you should write the code for displaying the
  * the table of grades.
@@ -30,6 +42,14 @@ const columns: GridColDef[]=[
  *
  */
 export const GradeTable = () => {
-  return <>
-  </>;
+
+  return(
+    <div style ={{ height:300,width:'100%' }}>
+      <DataGrid 
+      rows={rows}
+      columns={columns}
+      pageSize={100}
+      rowsPerPageOptions={[10]}/>
+    </div>
+  )
 };
