@@ -30,6 +30,7 @@ function App() {
    * You will also need to explore the use of async/await.
    *
    */
+  useEffect(() => {
   const fetchData = async () => {
     console.log("Fetching...") //Fetch call to check
     try {
@@ -49,7 +50,8 @@ function App() {
     }
   };
   fetchData(); //fetch data as website loads
-  
+
+}, []);
   
 
   return (
