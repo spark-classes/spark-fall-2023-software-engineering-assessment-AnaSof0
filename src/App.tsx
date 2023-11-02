@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Grid from "@mui/material/Unstable_Grid2";
-import { Button, Select, Typography } from "@mui/material";
+import { Button,MenuItem, Select, Typography } from "@mui/material";
+import {} from "./globals";
 /**
  * You will find globals from this file useful!
  */
@@ -11,8 +12,8 @@ import { GradeTable } from "./components/GradeTable";
 function App() {
   // You will need to use more of these!
   const [currClassId, setCurrClassId] = useState<string>("");
-  const [classList, setClassList] = useState<IUniversityClass[]>([]);
-  const [data, setData] = useState<any>(null); /*creating variable to store data from the called API*/
+  const [classList, setClassList] = useState<IUniversityClass[]>([]); /** We are making an array, specifying that the university
+  class info we get from the call will be here */
 
   /**
    * This is JUST an example of how you might fetch some data(with a different API).
@@ -28,14 +29,15 @@ function App() {
    * You will also need to explore the use of async/await.
    *
    */
-  const fetchSomeData = async () => {
-    const res = await fetch("https://spark-se-assessment-api.azurewebsites.net/api/class/listBySemester/fall2022?buid=U84054577", {
-      method: "GET",
-      headers: GET_DEFAULT_HEADERS()
-    });
-    const json = await res.json();
-    setData(json);/*putting our API data into our data variable we created before*/
-  };
+    const fetchData = async () => {
+        const res = await fetch("https://spark-se-assessment-api.azurewebsites.net/api/class/listBySemester/fall2022?buid=U84054577", {
+          method: "GET",
+          headers: GET_DEFAULT_HEADERS()
+        });
+        const json=await res.json();
+        console.log(json)
+        setClassList(json); /**putting our data from the call into our class list we defined before */
+      };
 
   return (
     <div style={{ width: "100vw", height: "100vh" }}>
@@ -44,16 +46,22 @@ function App() {
           <Typography variant="h2" gutterBottom>
             Spark Assessment
           </Typography>
-          <Button onClick={fetchSomeData}> test api </Button>
+          <Button onClick={fetchData}> test api </Button>
         </Grid>
         <Grid xs={12} md={4}>
           <Typography variant="h4" gutterBottom>
             Select a class
           </Typography>
           <div style={{ width: "100%" }}>
-            <Select fullWidth={true} label="Class">
-              {/* You'll need to place some code here to generate the list of items in the selection */}
-            </Select>
+          <Select fullWidth={true} label="Class" value={currClassId}
+          onChange={(e) => setCurrClassId(e.target.value)}
+          > 
+          {classList.map((classItem) => ( /**for each  */
+            <MenuItem key={classItem.classId} value={classItem.classId}>
+              {classItem.title} 
+            </MenuItem>/** show the class title only*/
+          ))}
+        </Select>
           </div>
         </Grid>
         <Grid xs={12} md={8}>
