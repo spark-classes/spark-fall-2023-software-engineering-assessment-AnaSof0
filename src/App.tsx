@@ -15,6 +15,7 @@ function App() {
   const [classList, setClassList] = useState<IUniversityClass[]>([]); /** We are making an array, specifying that the university
   class info we get from the call will be here */
 
+
   /**
    * This is JUST an example of how you might fetch some data(with a different API).
    * As you might notice, this does not show up in your console right now.
@@ -29,15 +30,27 @@ function App() {
    * You will also need to explore the use of async/await.
    *
    */
-    const fetchData = async () => {
-        const res = await fetch("https://spark-se-assessment-api.azurewebsites.net/api/class/listBySemester/fall2022?buid=U84054577", {
-          method: "GET",
-          headers: GET_DEFAULT_HEADERS()
-        });
-        const json=await res.json();
-        console.log(json)
-        setClassList(json); /**putting our data from the call into our class list we defined before */
-      };
+  const fetchData = async () => {
+    console.log("Fetching...") //Fetch call to check
+    try {
+      const res = await fetch("https://spark-se-assessment-api.azurewebsites.net/api/class/listBySemester/fall2022?buid=U84054577", {
+        method: "GET",
+        headers: GET_DEFAULT_HEADERS(),
+      });
+      if (res.ok) {
+        const json = await res.json();
+        console.log(json); // Log the API response in console to check
+        setClassList(json);
+      } else {
+        console.error("Error fetching classes:", res.statusText);
+      }
+    } catch (error) {
+      console.error("Error fetching classes:", error);
+    }
+  };
+  fetchData(); //fetch data as website loads
+  
+  
 
   return (
     <div style={{ width: "100vw", height: "100vh" }}>
@@ -46,7 +59,6 @@ function App() {
           <Typography variant="h2" gutterBottom>
             Spark Assessment
           </Typography>
-          <Button onClick={fetchData}> test api </Button>
         </Grid>
         <Grid xs={12} md={4}>
           <Typography variant="h4" gutterBottom>
@@ -61,6 +73,9 @@ function App() {
               {classItem.title} 
             </MenuItem>/** show the class title only*/
           ))}
+
+
+          
         </Select>
           </div>
         </Grid>
