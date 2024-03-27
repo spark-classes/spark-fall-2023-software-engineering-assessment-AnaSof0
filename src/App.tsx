@@ -15,6 +15,7 @@ function App() {
   const [classList, setClassList] = useState<IUniversityClass[]>([]); /** We are making an array, specifying that the university
   class info we get from the call will be here */
   const [studentList,setStudentList]=useState<string[]>([]);//students per class in an array
+  const [nameList,setNameList]=useState<string[]>([]);
 
 
   /**
@@ -82,6 +83,37 @@ function App() {
     };
     fetchStudentList();
   }, [currClassId]);
+
+  //getting the names for each student
+  useEffect(() => {
+    const fetchNameList = async () => {
+      try {
+        const names = [];
+        for (const studentId of studentList) {
+          const response = await fetch(
+            `${BASE_API_URL}/student/GetById/${studentId}?buid=${MY_BU_ID}`,
+            {
+              method: "GET",
+              headers: GET_DEFAULT_HEADERS(),
+            }
+          );
+          if (response.ok) {
+            const data = await response.json();
+            names.push(data[0]?.name);
+          } else {
+            console.error("Error fetching student:", studentId);
+            names.push("");
+          }
+        }
+        setNameList(names);
+      } catch (error) {
+        console.error("Error fetching student names:", error);
+      }
+    };
+    fetchNameList();
+  }, [studentList]);
+
+
   
 
 return (
@@ -115,7 +147,8 @@ return (
           <Typography variant="h4" gutterBottom>
             Final Grades
           </Typography>
-          <GradeTable studentList={studentList} /> 
+          <GradeTable studentList={studentList} nameList={nameList} currClassId={currClassId} classList={classList} />  {/* Passing the fetched data into the table component*/}
+           
         </Grid>
       </Grid>
     </div>
