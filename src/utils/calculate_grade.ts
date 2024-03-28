@@ -14,22 +14,55 @@ import { IUniversityClass } from "../types/api_types";
  * 
  * If you are reading here and you haven't read the top of the file...go back.
  */
-export async function calculateStudentFinalGrade(
-  studentID: string,
-  classAssignments: undefined,
-  klass: IUniversityClass
-): Promise<undefined> {
-  return undefined;
+
+// Define the interface for assignment weights
+export interface Weights {
+  assignmentId: string;
+  weight: number;
 }
 
-/**
- * You need to write this function! You might want to write more functions to make the code easier to read as well.
- * 
- *  If you are reading here and you haven't read the top of the file...go back.
- * 
- * @param classID The ID of the class for which we want to calculate the final grades
- * @returns Some data structure that has a list of each student and their final grade.
- */
-export async function calcAllFinalGrade(classID: string): Promise<undefined> {
-  return undefined;
+export function calculateStudentFinalGrade(
+  gradeAssignments: { [assignmentId: string]: string },
+  weights: Weights[] 
+): number {
+  try {
+    let totalWeightedGrade = 0;
+    const assignmentIDs = Object.keys(gradeAssignments);
+    
+    for (const assignmentId of assignmentIDs) {
+      const gradeString = gradeAssignments[assignmentId];
+      const singleGrade = parseFloat(gradeString);
+      const assignmentWeight = weights.find(weight => weight.assignmentId === assignmentId)?.weight;
+      const weightedGrade = singleGrade * (assignmentWeight ?? 0); // Handle case when assignment weight is undefined
+      totalWeightedGrade += weightedGrade;
+    }
+
+    return totalWeightedGrade;
+  } catch (error) {
+    console.error('Error calculating final grade:', error);
+    return 0;
+  }
+}
+
+export function calcAllFinalGrade(
+  classID: string,
+  classAssignments: any[],
+  weights: Weights[],
+  studentGrades: { studentId: string; grades: { [assignmentId: string]: string }; }[]
+): { studentID: string; finalGrade: number; }[] {
+  const finalGrades: { studentID: string; finalGrade: number; }[] = [];
+
+  // Iterate over each student
+  for (const student of studentGrades) {
+    const studentId = student.studentId;
+    const gradeAssignments = student.grades; // Object containing grades for the student
+
+    // Calculate final grade for the student using calculateStudentFinalGrade function
+    const finalGrade = calculateStudentFinalGrade(gradeAssignments, weights);
+
+    // Push the final grade to the array
+    finalGrades.push({ studentID: studentId, finalGrade: finalGrade });
+  }
+
+  return finalGrades;
 }
