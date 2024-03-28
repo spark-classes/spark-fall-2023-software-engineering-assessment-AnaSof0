@@ -287,7 +287,7 @@ return (
            nameList={nameList} 
            currClassId={currClassId} 
            classList={classList} 
-           finalGrades={grades}/>
+           finalGrades={finalGrades}/>
            {/* Passing the fetched data into the table component*/}
         </Grid>
       </Grid>

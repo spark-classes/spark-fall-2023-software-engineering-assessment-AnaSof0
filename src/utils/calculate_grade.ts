@@ -20,22 +20,36 @@ export interface Weights {
   assignmentId: string;
   weight: number;
 }
+type gradeList = {
+  [assignmentId: string]: string;
+};
+
 
 export function calculateStudentFinalGrade(
   gradeAssignments: { [assignmentId: string]: string },
   weights: Weights[] 
 ): number {
   try {
+    
     let totalWeightedGrade = 0;
-    const assignmentIDs = Object.keys(gradeAssignments);
+    const gradeList = gradeAssignments[0]
+    const assignmentIDs = Object.keys(gradeList);
+    console.log("GradeList: ", gradeList)
+    console.log("assignmentIDs: ",assignmentIDs)
+    console.log("weights: ", weights);
     
     for (const assignmentId of assignmentIDs) {
-      const gradeString = gradeAssignments[assignmentId];
+      const gradeString = gradeList[assignmentId]; //error but dont know why exactly
+      console.log("Assignment ID:", assignmentId);
+      console.log("Grade:", gradeString);
       const singleGrade = parseFloat(gradeString);
+      console.log("SingleGrade: " , singleGrade)
       const assignmentWeight = weights.find(weight => weight.assignmentId === assignmentId)?.weight;
+      console.log("its weight: ",assignmentWeight)
       const weightedGrade = singleGrade * (assignmentWeight ?? 0); // Handle case when assignment weight is undefined
       totalWeightedGrade += weightedGrade;
     }
+    console.log("Grade calculated: ", totalWeightedGrade)
 
     return totalWeightedGrade;
   } catch (error) {
@@ -55,12 +69,12 @@ export function calcAllFinalGrade(
   // Iterate over each student
   for (const student of studentGrades) {
     const studentId = student.studentId;
-    const gradeAssignments = student.grades; // Object containing grades for the student
+    const gradeAssignments = student.grades; // Object containing grades of the student
 
-    // Calculate final grade for the student using calculateStudentFinalGrade function
+    // Calculate final grade for each student
     const finalGrade = calculateStudentFinalGrade(gradeAssignments, weights);
 
-    // Push the final grade to the array
+   
     finalGrades.push({ studentID: studentId, finalGrade: finalGrade });
   }
 

@@ -7,7 +7,7 @@ interface GradeTableProps {
   nameList: string[];
   currClassId: string;
   classList: { classId: string; title: string; description: string; meetingTime: string; meetingLocation: string; semester : string }[]; //defining how we get the data
-  finalGrades: { studentId: string; grades: any }[];
+  finalGrades: { studentId: string; finalGrade: any }[];
 }
 
 const columns: GridColDef[] = [
@@ -32,9 +32,8 @@ const GradeTable: React.FC<GradeTableProps> = ({ studentList, nameList, currClas
     StudentName: nameList[index],
     ClassID: currClassId, // classID from the initial fetch
     ClassName: classTitle, // title of the current class Id array defined at top
-    Semester: sem, 
-    FinalGrade: finalGrades[index] !== undefined ? finalGrades[index].toString() : '' // Set final grade if available
-    , 
+    Semester: sem,
+    FinalGrade: finalGrades[index] ? finalGrades[index].finalGrade.toString() : '', // Set final grade if available
   }));
 
   return (
