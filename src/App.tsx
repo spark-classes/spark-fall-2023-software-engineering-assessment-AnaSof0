@@ -38,7 +38,8 @@ export default function App() {
   const [classAssignments, setClassAssignments] = useState<any[]>([]);
   const [weights, setWeights] = useState<Weights[]>([]);
   const [grades, setGrades] = useState<any[]>([]);
-  const [finalGrades, setFinalGrades] = useState<{ studentID: string; finalGrade: number; }[]>([]);
+
+const [finalGrades, setFinalGrades] = useState<{ studentId: string; finalGrade: number; }[]>([]);
 
   /**
    * This is JUST an example of how you might fetch some data(with a different API).
