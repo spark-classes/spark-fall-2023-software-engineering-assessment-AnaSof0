@@ -6,18 +6,12 @@ import GradeTable from "./components/GradeTable";
  * You will find globals from this file useful!
  */
 import {GET_DEFAULT_HEADERS,BASE_API_URL,MY_BU_ID} from "./globals";
-import { IUniversityClass } from "./types/api_types";
+import { IUniversityClass, Weights } from "./types/api_types";
 import { calcAllFinalGrade} from '../src/utils/calculate_grade';
 
 //import { testCalcAllFinalGrade} from '../src/utils/grade_test';  
 
 export default function App() {
-
-  // interface for assignment weights
-  interface Weights {
-    assignmentId: string;
-    weight: number;
-  }
 
   // Function to parse assignment weights from API response
   function parseWeights(data: any[]): Weights[] {
@@ -30,17 +24,13 @@ export default function App() {
 
   // You will need to use more of these!
   const [currClassId, setCurrClassId] = useState<string>("");
-  const [classList, setClassList] = useState<IUniversityClass[]>([]); /** We are making an array, specifying that the university
-  class info we get from the call will be here */
-  const [studentList,setStudentList]=useState<string[]>([]);//students per class in an array
-  const [nameList,setNameList]=useState<string[]>([]);
-
+  const [classList, setClassList] = useState<IUniversityClass[]>([]);
+  const [studentList, setStudentList] = useState<string[]>([]);
+  const [nameList, setNameList] = useState<string[]>([]);
   const [classAssignments, setClassAssignments] = useState<any[]>([]);
-  const [weights, setWeights] = useState<Weights[]>([]);
+  const [weights, setWeights] = useState<any[]>([]);
   const [grades, setGrades] = useState<any[]>([]);
-
-const [finalGrades, setFinalGrades] = useState<{ studentId: string; finalGrade: number; }[]>([]);
-
+  const [finalGrades, setFinalGrades] = useState<any[]>([]);
   /**
    * This is JUST an example of how you might fetch some data(with a different API).
    * As you might notice, this does not show up in your console right now.
@@ -227,9 +217,8 @@ useEffect(() => {
 console.log("grades:",grades)
 
 
-/*testCalculateStudentFinalGrade(); Testing my function */
-//testCalcAllFinalGrade();
-
+/*testCalculateStudentFinalGrade(); 
+testCalcAllFinalGrade(); """Initial testing"""*/
 
 //get final grades of each student 
 useEffect(() => {
@@ -237,7 +226,7 @@ useEffect(() => {
     try {
       if (currClassId && classAssignments.length > 0 && weights.length > 0 && grades.length > 0) {
         console.log("Fetching final grades...");
-        const finalGrades = calcAllFinalGrade(currClassId, classAssignments, weights, grades);
+        const finalGrades = calcAllFinalGrade(weights, grades);
         console.log("Final grades fetched:", finalGrades);
 
         setFinalGrades(finalGrades);

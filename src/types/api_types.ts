@@ -17,3 +17,8 @@ export interface IUniversityClass {
   status: string;
   semester: string;
 }
+// interface for assignment weights
+export interface Weights {
+  assignmentId: string;
+  weight: number;
+}
