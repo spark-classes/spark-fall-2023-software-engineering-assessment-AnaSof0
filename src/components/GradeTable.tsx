@@ -1,21 +1,48 @@
-/**
- * You might find it useful to have some dummy data for your own testing.
- * Feel free to write this function if you find that feature desirable.
- * 
- * When you come to office hours for help, we will ask you if you have written
- * this function and tested your project using it.
- */
-export function dummyData() {
-  return [];
+import React from 'react';
+import { DataGrid, GridColDef } from '@mui/x-data-grid';
+
+
+interface GradeTableProps {
+  studentList: string[];
+  nameList: string[];
+  currClassId: string;
+  classList: { classId: string; title: string; description: string; meetingTime: string; meetingLocation: string; semester : string }[]; //defining how we get the data
+  finalGrades: { studentId: string; finalGrade: any }[];
 }
 
-/**
- * This is the component where you should write the code for displaying the
- * the table of grades.
- *
- * You might need to change the signature of this function.
- *
- */
-export const GradeTable = () => {
-  return <></>;
+const columns: GridColDef[] = [
+  { field: 'ID', headerName: 'Student ID', width: 100 },
+  { field: 'StudentName', headerName: 'Student Name', width: 200 },
+  { field: 'ClassID', headerName: 'Class ID', width: 100 },
+  { field: 'ClassName', headerName: 'Class Name', width: 200 },
+  { field: 'Semester', headerName: 'Semester', width: 100 },
+  { field: 'FinalGrade', headerName: 'Final Grade', width: 100 },
+];
+
+//learned about FC here: https://dev.to/elhamnajeebullah/react-typescript-what-is-reactfc-and-why-should-i-use-it-4029
+const GradeTable: React.FC<GradeTableProps> = ({ studentList, nameList, currClassId, classList,finalGrades}) => {
+  // Find the class object corresponding to the currClassId
+  const selectedClass = classList.find(classItem => classItem.classId === currClassId);
+  const classTitle = selectedClass ? selectedClass.title : '';
+  const sem = selectedClass ? selectedClass.semester:'';
+
+  const rows = studentList.map((student, index) => ({
+    id: index,
+    ID: student,
+    StudentName: nameList[index],
+    ClassID: currClassId, // classID from the initial fetch
+    ClassName: classTitle, // title of the current class Id array defined at top
+    Semester: sem,
+    FinalGrade: finalGrades[index] ? finalGrades[index].finalGrade.toString() : '', // Set final grade if available
+  }));
+
+  return (
+    <div style={{ height: 300, width: '100%' }}>
+      <DataGrid rows={rows} columns={columns} />
+    </div>
+  );
 };
+
+export default GradeTable;
+
+
